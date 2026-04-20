@@ -1,14 +1,7 @@
-import express, { json } from 'express'
-import cors from 'cors'
+import express from 'express'
 import dotenv from 'dotenv'
-
-// FORMA NATIVA
-import { createRequire } from 'node:module'
-const require = createRequire(import.meta.url)
-const movies = require('./movies.json')
-
-// FORMA ACTUAL
-// import movies from './movies.json' with { type: 'json' }
+import router from './routes/movie.js'
+import { corsMiddleware } from './middlewares/cors.js'
 
 dotenv.config({ quiet: true })
 
@@ -16,19 +9,17 @@ const app = express()
 
 const port = process.env.PORT
 
-app.use(cors())
+app.use(corsMiddleware())
 
-app.disable('')
+app.disable('x-powered-by')
 
-app.use(json())
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.json({ message: 'bienvenido al api de peliculas mas chevere del mundo' })
 })
 
-app.get('/movies', (req, res) => {
-  res.json(movies)
-})
+app.use('/movies', router)
 
 app.listen(port, () => {
   console.log(`El api esta corriendo en htttp:\\localhost:${port}`)
