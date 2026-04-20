@@ -3,12 +3,12 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 
 // FORMA NATIVA
-// import { createRequire } from 'node:module'
-// const require = createRequire(import.meta.url)
-// const movies = require('./movies.json')
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+const movies = require('./movies.json')
 
 // FORMA ACTUAL
-import movies from './movies.json' with { type: 'json' }
+// import movies from './movies.json' with { type: 'json' }
 
 dotenv.config({ quiet: true })
 
@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
   res.json(movies)
 })
-
 
 app.listen(port, () => {
   console.log(`El api esta corriendo en htttp:\\localhost:${port}`)
